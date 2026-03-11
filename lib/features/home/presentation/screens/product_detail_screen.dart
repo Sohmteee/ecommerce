@@ -568,9 +568,8 @@ class _ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
             child: SizedBox(
               height: contentHeight,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: math.max(0.0, 40 * (1 - progress))),
                   Flexible(
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
