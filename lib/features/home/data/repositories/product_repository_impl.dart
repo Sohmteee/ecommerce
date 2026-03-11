@@ -3,6 +3,7 @@ import 'package:ecommerce/features/home/domain/models/product.dart';
 import 'package:ecommerce/features/home/domain/models/product_category.dart';
 import 'package:ecommerce/features/home/domain/repositories/product_repository.dart';
 
+/// Implementation of [ProductRepository] that uses [ProductRemoteDataSource].
 class ProductRepositoryImpl implements ProductRepository {
   final ProductRemoteDataSource _remoteDataSource;
 

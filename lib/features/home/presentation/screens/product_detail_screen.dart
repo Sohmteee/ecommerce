@@ -9,7 +9,12 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+/// Screen displaying detailed information about a specific product.
+/// 
+/// It utilizes a [CustomScrollView] with a collapsing header and shows
+/// technical specifications, logistics information, and customer reviews.
 class ProductDetailScreen extends ConsumerWidget {
+  /// The unique identifier of the product to display.
   final int productId;
 
   const ProductDetailScreen({super.key, required this.productId});
@@ -512,9 +517,16 @@ class ProductDetailScreen extends ConsumerWidget {
   }
 }
 
+/// Delegate for the collapsing header in [ProductDetailScreen].
+/// 
+/// Handles the animation of the product image and title as the user scrolls,
+/// transitioning from a large centered image to a compact app bar layout.
 class _ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
+  /// The product whose details are being displayed.
   final Product product;
+  /// Whether the current theme is dark.
   final bool isDark;
+  /// Height of the system status bar, used for padding.
   final double statusBarHeight;
 
   _ProductHeaderDelegate({

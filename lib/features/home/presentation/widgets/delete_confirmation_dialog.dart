@@ -7,7 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:toastification/toastification.dart';
 
+/// A dialog to confirm the deletion of a [product].
 class DeleteConfirmationDialog extends ConsumerStatefulWidget {
+  /// The product targeted for deletion.
   final Product product;
 
   const DeleteConfirmationDialog({super.key, required this.product});

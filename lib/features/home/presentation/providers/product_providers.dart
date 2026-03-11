@@ -5,31 +5,41 @@ import 'package:ecommerce/features/home/domain/models/product.dart';
 import 'package:ecommerce/features/home/domain/repositories/product_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// Available fields for sorting products.
 enum SortBy { title, price, rating }
+
+/// Order of sorting.
 enum SortOrder { asc, desc }
 
+/// Represents a combination of [SortBy] and [SortOrder].
 class SortOption {
   final SortBy sortBy;
   final SortOrder order;
 
   const SortOption({required this.sortBy, required this.order});
 
+  /// Returns the enum name as a string for API query parameters.
   String get sortByString => sortBy.name;
+  /// Returns the order name as a string for API query parameters.
   String get orderString => order.name;
 }
 
+/// Provider for the singleton [DioClient].
 final dioClientProvider = Provider<DioClient>((ref) => DioClient());
 
+/// Provider for [ProductRemoteDataSource].
 final productRemoteDataSourceProvider = Provider<ProductRemoteDataSource>((ref) {
   final client = ref.watch(dioClientProvider);
   return ProductRemoteDataSource(client);
 });
 
+/// Provider for [ProductRepository].
 final productRepositoryProvider = Provider<ProductRepository>((ref) {
   final remoteDataSource = ref.watch(productRemoteDataSourceProvider);
   return ProductRepositoryImpl(remoteDataSource);
 });
 
+/// Notifier for managing the global search query.
 class SearchQuery extends Notifier<String> {
   @override
   String build() => '';
@@ -39,6 +49,7 @@ class SearchQuery extends Notifier<String> {
 
 final searchQueryProvider = NotifierProvider<SearchQuery, String>(SearchQuery.new);
 
+/// Notifier for managing the active [SortOption].
 class SortNotifier extends Notifier<SortOption?> {
   @override
   SortOption? build() => null;
@@ -48,6 +59,7 @@ class SortNotifier extends Notifier<SortOption?> {
 
 final sortProvider = NotifierProvider<SortNotifier, SortOption?>(SortNotifier.new);
 
+/// Notifier for managing the currently selected product category.
 class SelectedCategory extends Notifier<String?> {
   @override
   String? build() => null;
@@ -57,6 +69,9 @@ class SelectedCategory extends Notifier<String?> {
 
 final selectedCategoryProvider = NotifierProvider<SelectedCategory, String?>(SelectedCategory.new);
 
+/// Main notifier for fetching and managing the list of products.
+/// 
+/// It reacts to changes in search query, sort options, and selected category.
 class ProductsNotifier extends AsyncNotifier<ProductResponse> {
   @override
   Future<ProductResponse> build() async {
@@ -112,13 +127,17 @@ class ProductsNotifier extends AsyncNotifier<ProductResponse> {
   }
 }
 
+
+/// Provider for the [ProductsNotifier] and the list of products.
 final productsProvider = AsyncNotifierProvider<ProductsNotifier, ProductResponse>(ProductsNotifier.new);
 
+/// Provider for specific product details by ID.
 final productDetailsProvider = FutureProvider.family<Product, int>((ref, id) async {
   final repository = ref.watch(productRepositoryProvider);
   return repository.getProductDetails(id);
 });
 
+/// Provider for the list of available category names.
 final categoryListProvider = FutureProvider<List<String>>((ref) async {
   final repository = ref.watch(productRepositoryProvider);
   return repository.getCategoryList();

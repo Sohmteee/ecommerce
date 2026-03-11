@@ -14,6 +14,10 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+/// The main landing screen of the application.
+/// 
+/// Displays a searchable and sortable grid of products, category filters,
+/// and provides access to product details and CRUD operations.
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 

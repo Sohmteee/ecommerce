@@ -1,7 +1,12 @@
+/// Represents the paginated response from the product API.
 class ProductResponse {
+  /// List of products in the current page.
   final List<Product> products;
+  /// Total number of products available on the server.
   final int total;
+  /// Number of items skipped in this response.
   final int skip;
+  /// Maximum number of items requested in this response.
   final int limit;
 
   ProductResponse({
@@ -47,6 +52,7 @@ class ProductResponse {
   }
 }
 
+/// Represents a single product entity in the system.
 class Product {
   final int id;
   final String title;
@@ -70,7 +76,11 @@ class Product {
   final Meta meta;
   final String thumbnail;
   final List<String> images;
+  
+  /// Whether the product has been marked as deleted (local/mocked state).
   final bool? isDeleted;
+  
+  /// Timestamp of when the product was deleted.
   final DateTime? deletedOn;
 
   Product({
@@ -216,6 +226,7 @@ class Product {
   }
 }
 
+/// Physical dimensions of a product.
 class Dimensions {
   final double width;
   final double height;
@@ -244,6 +255,7 @@ class Dimensions {
   }
 }
 
+/// A customer review for a product.
 class Review {
   final int rating;
   final String comment;
@@ -280,6 +292,7 @@ class Review {
   }
 }
 
+/// Metadata associated with a product, such as creation dates and codes.
 class Meta {
   final DateTime createdAt;
   final DateTime updatedAt;

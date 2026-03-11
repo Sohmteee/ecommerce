@@ -3,11 +3,18 @@ import 'package:ecommerce/core/network/dio_client.dart';
 import 'package:ecommerce/features/home/domain/models/product.dart';
 import 'package:ecommerce/features/home/domain/models/product_category.dart';
 
+/// Data source responsible for fetching product-related data from the remote API.
 class ProductRemoteDataSource {
   final DioClient _client;
 
   ProductRemoteDataSource(this._client);
 
+  /// Fetches a paginated list of products.
+  ///
+  /// [limit] specifies the number of items per page.
+  /// [skip] specifies the number of items to skip.
+  /// [sortBy] field name to sort by.
+  /// [order] 'asc' or 'desc'.
   Future<ProductResponse> getProducts({
     int limit = 30,
     int skip = 0,
@@ -30,6 +37,7 @@ class ProductRemoteDataSource {
     }
   }
 
+  /// Fetches detailed information for a single product by its [id].
   Future<Product> getProductDetails(int id) async {
     try {
       final response = await _client.get(ApiEndpoints.productDetails(id));
@@ -39,6 +47,7 @@ class ProductRemoteDataSource {
     }
   }
 
+  /// Searches for products matching the given [query].
   Future<ProductResponse> searchProducts(String query) async {
     try {
       final response = await _client.get(
@@ -51,6 +60,7 @@ class ProductRemoteDataSource {
     }
   }
 
+  /// Fetches products belonging to a specific [category].
   Future<ProductResponse> getProductsByCategory(String category) async {
     try {
       final response = await _client.get(
@@ -62,6 +72,7 @@ class ProductRemoteDataSource {
     }
   }
 
+  /// Fetches a list of detailed product categories.
   Future<List<ProductCategory>> getCategories() async {
     try {
       final response = await _client.get(ApiEndpoints.categories);
@@ -73,6 +84,7 @@ class ProductRemoteDataSource {
     }
   }
 
+  /// Fetches a simple list of category names (Strings).
   Future<List<String>> getCategoryList() async {
     try {
       final response = await _client.get(ApiEndpoints.categoryList);
@@ -82,6 +94,9 @@ class ProductRemoteDataSource {
     }
   }
 
+  /// Adds a new product to the database.
+  ///
+  /// [productData] contains the field-value pairs for the new product.
   Future<Product> addProduct(Map<String, dynamic> productData) async {
     try {
       final response = await _client.dio.post(
@@ -94,6 +109,7 @@ class ProductRemoteDataSource {
     }
   }
 
+  /// Updates an existing product with the provided [productData].
   Future<Product> updateProduct(
     int id,
     Map<String, dynamic> productData,
@@ -109,6 +125,7 @@ class ProductRemoteDataSource {
     }
   }
 
+  /// Deletes a product by its [id].
   Future<Product> deleteProduct(int id) async {
     try {
       final response = await _client.dio.delete(ApiEndpoints.deleteProduct(id));

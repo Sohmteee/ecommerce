@@ -3,18 +3,45 @@ import 'package:ecommerce/core/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// A premium UI component that provides a frosted glass (glassmorphism) effect.
+///
+/// It supports blurring, adjustable opacity, sheen effects, and falls back to 
+/// a solid background if liquid glass is disabled in [SettingsState].
 class GlassContainer extends ConsumerWidget {
+  /// The widget to be displayed inside the container.
   final Widget child;
+
+  /// The amount of Gaussian blur applied to the background.
   final double blur;
+
+  /// The opacity of the background color.
   final double opacity;
+
+  /// The border radius of the container. Defaults to 24.
   final BorderRadius? borderRadius;
+
+  /// Inner padding for the content.
   final EdgeInsetsGeometry? padding;
+
+  /// Custom border for the container.
   final BoxBorder? border;
+
+  /// Base color for the glass effect. Defaults to theme-based black/white.
   final Color? color;
+
+  /// Width of the container.
   final double? width;
+
+  /// Height of the container.
   final double? height;
+
+  /// Shadows applied to the container.
   final List<BoxShadow>? boxShadow;
+
+  /// Shape of the container.
   final BoxShape shape;
+
+  /// Whether to show a subtle diagonal sheen effect.
   final bool showSheen;
 
   const GlassContainer({

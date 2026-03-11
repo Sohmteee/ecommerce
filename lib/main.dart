@@ -5,6 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:toastification/toastification.dart';
 import 'package:ecommerce/features/home/presentation/screens/home_screen.dart';
 
+/// Entry point of the application.
+/// 
+/// Initializes the [ProviderScope] for Riverpod state management.
 void main() {
   runApp(
     const ProviderScope(
@@ -13,6 +16,10 @@ void main() {
   );
 }
 
+/// The root widget of the application.
+/// 
+/// Configures responsive design via [ScreenUtilInit], toast notifications via 
+/// [ToastificationWrapper], and the global theme including custom fonts.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

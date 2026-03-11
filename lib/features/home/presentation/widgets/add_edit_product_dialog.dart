@@ -7,7 +7,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:toastification/toastification.dart';
 
+/// A dialog for adding a new product or editing an existing one.
+/// 
+/// If [product] is provided, the dialog initializes with its data for editing.
+/// Otherwise, it acts as a form to create a new product.
 class AddEditProductDialog extends ConsumerStatefulWidget {
+  /// The product to edit, or null if adding a new product.
   final Product? product;
 
   const AddEditProductDialog({super.key, this.product});

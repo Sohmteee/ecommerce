@@ -1,11 +1,21 @@
 import 'package:ecommerce/core/widgets/glass_container.dart';
 import 'package:flutter/material.dart';
 
+/// A glassmorphic button with optional icon and loading state.
 class GlassButton extends StatelessWidget {
+  /// The text label displayed on the button.
   final String label;
+
+  /// Callback function when the button is pressed.
   final VoidCallback onPressed;
+
+  /// Base color of the glass button.
   final Color? color;
+
+  /// Optional icon displayed before the label.
   final IconData? icon;
+
+  /// Whether to show a loading indicator instead of the label/icon.
   final bool isLoading;
 
   const GlassButton({
@@ -62,11 +72,21 @@ class GlassButton extends StatelessWidget {
   }
 }
 
+/// A glassmorphic text input field with a floating-style label.
 class GlassTextField extends StatelessWidget {
+  /// Controller for the text being edited.
   final TextEditingController controller;
+
+  /// The label displayed above the text field.
   final String label;
+
+  /// Optional icon displayed at the start of the text field.
   final IconData? prefixIcon;
+
+  /// The type of information for which to optimize the text input control.
   final TextInputType keyboardType;
+
+  /// Optional validator for the input value.
   final String? Function(String?)? validator;
 
   const GlassTextField({
