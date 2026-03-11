@@ -1,0 +1,120 @@
+import 'package:ecommerce/core/network/api_endpoints.dart';
+import 'package:ecommerce/core/network/dio_client.dart';
+import 'package:ecommerce/features/home/domain/models/product.dart';
+import 'package:ecommerce/features/home/domain/models/product_category.dart';
+
+class ProductRemoteDataSource {
+  final DioClient _client;
+
+  ProductRemoteDataSource(this._client);
+
+  Future<ProductResponse> getProducts({
+    int limit = 30,
+    int skip = 0,
+    String? sortBy,
+    String? order,
+  }) async {
+    try {
+      final response = await _client.get(
+        ApiEndpoints.products,
+        queryParameters: {
+          'limit': limit,
+          'skip': skip,
+          'sortBy': ?sortBy,
+          'order': ?order,
+        },
+      );
+      return ProductResponse.fromJson(response.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Product> getProductDetails(int id) async {
+    try {
+      final response = await _client.get(ApiEndpoints.productDetails(id));
+      return Product.fromJson(response.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ProductResponse> searchProducts(String query) async {
+    try {
+      final response = await _client.get(
+        ApiEndpoints.searchProducts,
+        queryParameters: {'q': query},
+      );
+      return ProductResponse.fromJson(response.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ProductResponse> getProductsByCategory(String category) async {
+    try {
+      final response = await _client.get(
+        '${ApiEndpoints.productByCategory}/$category',
+      );
+      return ProductResponse.fromJson(response.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<ProductCategory>> getCategories() async {
+    try {
+      final response = await _client.get(ApiEndpoints.categories);
+      return (response.data as List<dynamic>)
+          .map((e) => ProductCategory.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<String>> getCategoryList() async {
+    try {
+      final response = await _client.get(ApiEndpoints.categoryList);
+      return (response.data as List<dynamic>).map((e) => e as String).toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Product> addProduct(Map<String, dynamic> productData) async {
+    try {
+      final response = await _client.dio.post(
+        ApiEndpoints.addProduct,
+        data: productData,
+      );
+      return Product.fromJson(response.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Product> updateProduct(
+    int id,
+    Map<String, dynamic> productData,
+  ) async {
+    try {
+      final response = await _client.dio.put(
+        ApiEndpoints.updateProduct(id),
+        data: productData,
+      );
+      return Product.fromJson(response.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Product> deleteProduct(int id) async {
+    try {
+      final response = await _client.dio.delete(ApiEndpoints.deleteProduct(id));
+      return Product.fromJson(response.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+}
