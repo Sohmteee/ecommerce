@@ -4,6 +4,7 @@ import 'package:ecommerce/features/home/domain/models/product.dart';
 import 'package:ecommerce/features/home/presentation/providers/product_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -120,26 +121,26 @@ class ProductDetailScreen extends ConsumerWidget {
     bool isDark,
   ) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (product.stock <= 5)
                 Text(
                   'Only ${product.stock} left!',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.redAccent,
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Row(
             children: [
               Text(
@@ -148,57 +149,57 @@ class ProductDetailScreen extends ConsumerWidget {
                   color: Colors.deepPurple.shade300,
                   letterSpacing: 1.5,
                   fontWeight: FontWeight.w900,
-                  fontSize: 12,
+                  fontSize: 12.sp,
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               if (product.brand != null) ...[
                 Container(
-                  width: 4,
-                  height: 4,
+                  width: 4.w,
+                  height: 4.h,
                   decoration: BoxDecoration(
                     color: isDark ? Colors.white24 : Colors.black26,
                     shape: BoxShape.circle,
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Text(
                   product.brand!,
                   style: TextStyle(
                     color: isDark ? Colors.white60 : Colors.black54,
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
             ],
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Text(
             'Description',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             product.description,
             style: TextStyle(
               color: isDark ? Colors.white70 : Colors.black87,
-              fontSize: 15,
+              fontSize: 15.sp,
               height: 1.5,
             ),
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: 32.h),
           _buildSectionHeader(context, 'Technical Specs'),
           _buildInfoGrid(product, isDark),
-          const SizedBox(height: 32),
+          SizedBox(height: 32.h),
           _buildSectionHeader(context, 'Logistics & Policy'),
           _buildLogisticsSection(product, isDark),
-          const SizedBox(height: 32),
+          SizedBox(height: 32.h),
           _buildReviewsSection(context, product, isDark),
-          const SizedBox(height: 120),
+          SizedBox(height: 120.h),
         ],
       ),
     );
@@ -206,11 +207,11 @@ class ProductDetailScreen extends ConsumerWidget {
 
   Widget _buildSectionHeader(BuildContext context, String title) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(bottom: 16.h),
       child: Text(
         title,
         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-          fontSize: 18,
+          fontSize: 18.sp,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -221,11 +222,11 @@ class ProductDetailScreen extends ConsumerWidget {
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.only(top: 16),
+      padding: EdgeInsets.only(top: 16.h),
       crossAxisCount: 2,
       childAspectRatio: 2.2,
-      mainAxisSpacing: 12,
-      crossAxisSpacing: 12,
+      mainAxisSpacing: 12.h,
+      crossAxisSpacing: 12.w,
       children: [
         _buildInfoCard('SKU', product.sku, Iconsax.barcode, isDark),
         _buildInfoCard('Weight', '${product.weight}g', Iconsax.weight, isDark),
@@ -248,7 +249,7 @@ class ProductDetailScreen extends ConsumerWidget {
   Widget _buildLogisticsSection(Product product, bool isDark) {
     return Column(
       children: [
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         _buildLogisticsCard(
           'Availability',
           product.availabilityStatus,
@@ -256,7 +257,7 @@ class ProductDetailScreen extends ConsumerWidget {
           product.stock > 0 ? Colors.green : Colors.red,
           isDark,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         _buildLogisticsCard(
           'Warranty',
           product.warrantyInformation,
@@ -264,7 +265,7 @@ class ProductDetailScreen extends ConsumerWidget {
           Colors.blue,
           isDark,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         _buildLogisticsCard(
           'Shipping',
           product.shippingInformation,
@@ -272,7 +273,7 @@ class ProductDetailScreen extends ConsumerWidget {
           Colors.orange,
           isDark,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         _buildLogisticsCard(
           'Returns',
           product.returnPolicy,
@@ -292,32 +293,32 @@ class ProductDetailScreen extends ConsumerWidget {
     bool isDark,
   ) {
     return GlassContainer(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       opacity: 0.05,
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8.w),
             decoration: BoxDecoration(
               color: accentColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(8.r),
             ),
-            child: Icon(icon, size: 20, color: accentColor),
+            child: Icon(icon, size: 20.sp, color: accentColor),
           ),
-          const SizedBox(width: 16),
+          SizedBox(width: 16.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontSize: 10, color: Colors.white38),
+                  style: TextStyle(fontSize: 10.sp, color: Colors.white38),
                 ),
                 Text(
                   value,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    fontSize: 14.sp,
                   ),
                 ),
               ],
@@ -343,22 +344,22 @@ class ProductDetailScreen extends ConsumerWidget {
           children: [
             _buildSectionHeader(context, 'Customer Reviews'),
             GlassContainer(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              borderRadius: BorderRadius.circular(12),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+              borderRadius: BorderRadius.circular(12.r),
               color: Colors.amber,
               opacity: 0.1,
               child: Row(
                 children: [
-                   const Icon(Iconsax.star1, size: 16, color: Colors.amber),
-                   const SizedBox(width: 4),
+                   Icon(Iconsax.star1, size: 16.sp, color: Colors.amber),
+                   SizedBox(width: 4.w),
                    Text(
                      '${product.rating}',
-                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.sp),
                    ),
-                   const SizedBox(width: 4),
+                   SizedBox(width: 4.w),
                    Text(
                      '(${product.reviews.length})',
-                     style: const TextStyle(color: Colors.white38, fontSize: 11),
+                     style: TextStyle(color: Colors.white38, fontSize: 11.sp),
                    ),
                 ],
               ),
@@ -369,12 +370,12 @@ class ProductDetailScreen extends ConsumerWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: product.reviews.length,
-          padding: EdgeInsets.only(top: 24),
-          separatorBuilder: (context, index) => const SizedBox(height: 12),
+          padding: EdgeInsets.only(top: 24.h),
+          separatorBuilder: (context, index) => SizedBox(height: 12.h),
           itemBuilder: (context, index) {
             final review = product.reviews[index];
             return GlassContainer(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.w),
               opacity: 0.05,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -391,7 +392,7 @@ class ProductDetailScreen extends ConsumerWidget {
                           5,
                           (i) => Icon(
                             Iconsax.star1,
-                            size: 14,
+                            size: 14.sp,
                             color: i < review.rating
                                 ? Colors.amber
                                 : Colors.white10,
@@ -400,17 +401,17 @@ class ProductDetailScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Text(
                     '${review.date.day}/${review.date.month}/${review.date.year}',
-                    style: const TextStyle(fontSize: 10, color: Colors.white38),
+                    style: TextStyle(fontSize: 10.sp, color: Colors.white38),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Text(
                     review.comment,
                     style: TextStyle(
                       color: isDark ? Colors.white70 : Colors.black87,
-                      fontSize: 13,
+                      fontSize: 13.sp,
                     ),
                   ),
                 ],
@@ -429,12 +430,12 @@ class ProductDetailScreen extends ConsumerWidget {
     bool isDark,
   ) {
     return GlassContainer(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12.w),
       opacity: 0.05,
       child: Row(
         children: [
-          Icon(icon, size: 20, color: Colors.deepPurple.shade200),
-          const SizedBox(width: 12),
+          Icon(icon, size: 20.sp, color: Colors.deepPurple.shade200),
+          SizedBox(width: 12.w),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -442,15 +443,15 @@ class ProductDetailScreen extends ConsumerWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontSize: 10, color: Colors.white38),
+                  style: TextStyle(fontSize: 10.sp, color: Colors.white38),
                 ),
                 Text(
                   value,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 13,
+                    fontSize: 13.sp,
                   ),
                 ),
               ],
@@ -470,7 +471,7 @@ class ProductDetailScreen extends ConsumerWidget {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Container(
       padding: EdgeInsets.fromLTRB(
-          20, 0, 20, bottomPadding > 0 ? bottomPadding : 20),
+          20.w, 0, 20.w, bottomPadding > 0 ? bottomPadding : 20.h),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -484,21 +485,21 @@ class ProductDetailScreen extends ConsumerWidget {
         ),
       ),
       child: GlassContainer(
-        borderRadius: BorderRadius.circular(28),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        borderRadius: BorderRadius.circular(28.r),
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
+              Text(
                 'Price',
-                style: TextStyle(color: Colors.white38, fontSize: 11),
+                style: TextStyle(color: Colors.white38, fontSize: 11.sp),
               ),
               Text(
                 currencyFormat.format(product.price),
-                style: const TextStyle(
-                  fontSize: 24,
+                style: TextStyle(
+                  fontSize: 24.sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -554,7 +555,7 @@ class _ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
       }
     }
 
-    final double titleFontSize = (24 * (1 - progress)).clamp(16, 24);
+    final double titleFontSize = (24 * (1 - progress)).clamp(16, 24).sp;
 
     return GlassContainer(
       borderRadius: BorderRadius.zero,
@@ -574,46 +575,46 @@ class _ProductHeaderDelegate extends SliverPersistentHeaderDelegate {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        SizedBox(width: (1 - progress) * 24 + (progress * 16)),
+                        SizedBox(width: ((1 - progress) * 24 + (progress * 16)).w),
                         // Image container with fixed size to avoid jumping
                         Hero(
                           tag: 'product_${product.id}',
                           child: SizedBox(
-                            height: imageSize,
-                            width: progress > 0.6 ? 50 : imageSize,
+                            height: imageSize.h,
+                            width: progress > 0.6 ? 50.w : imageSize.w,
                             child: product.thumbnail.isNotEmpty
                                 ? Image.network(
                                     product.thumbnail,
                                     fit: BoxFit.contain,
                                   )
                                 : Icon(Iconsax.image,
-                                    size: imageSize / 2, color: Colors.white24),
+                                    size: (imageSize / 2).sp, color: Colors.white24),
                           ),
                         ),
                         if (progress > 0.6) ...[
-                          const SizedBox(width: 12),
+                          SizedBox(width: 12.w),
                           Expanded(
                             child: Text(
                               product.title,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
                             ),
                           ),
-                          const SizedBox(width: 16),
+                          SizedBox(width: 16.w),
                         ],
                       ],
                     ),
                   ),
                   if (progress <= 0.6) ...[
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     Flexible(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        padding: EdgeInsets.symmetric(horizontal: 24.w),
                         child: Text(
                           product.title,
                           textAlign: TextAlign.center,

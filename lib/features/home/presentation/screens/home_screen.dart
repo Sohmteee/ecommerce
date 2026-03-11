@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/core/widgets/glass_container.dart';
 import 'package:ecommerce/features/home/domain/models/product.dart';
 import 'package:ecommerce/features/home/presentation/providers/product_providers.dart';
@@ -8,6 +9,7 @@ import 'package:ecommerce/features/home/presentation/widgets/add_edit_product_di
 import 'package:ecommerce/features/home/presentation/widgets/delete_confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -45,9 +47,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
         title: GlassContainer(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
           opacity: 0.05,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: TextField(
             controller: _searchController,
             onChanged: (value) =>
@@ -57,15 +59,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               hintText: 'Search products...',
               hintStyle: TextStyle(
                 color: isDark ? Colors.white38 : Colors.black38,
+                fontSize: 14.sp,
               ),
               border: InputBorder.none,
               icon: Icon(
                 Iconsax.search_normal,
-                size: 20,
+                size: 20.sp,
                 color: isDark ? Colors.white54 : Colors.black54,
               ),
             ),
-            style: TextStyle(color: isDark ? Colors.white : Colors.black87),
+            style: TextStyle(
+              color: isDark ? Colors.white : Colors.black87,
+              fontSize: 14.sp,
+            ),
           ),
         ),
         actions: [
@@ -147,9 +153,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Iconsax.danger, size: 48, color: Colors.red),
-                const SizedBox(height: 16),
-                Text('Error: $err'),
+                Icon(Iconsax.danger, size: 48.sp, color: Colors.red),
+                SizedBox(height: 16.h),
+                Text('Error: $err', style: TextStyle(fontSize: 14.sp)),
+                SizedBox(height: 8.h),
                 ElevatedButton(
                   onPressed: () => ref.invalidate(productsProvider),
                   child: const Text('Retry'),
@@ -170,9 +177,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget _buildBody(List<Product> products) {
     return Column(
       children: [
-        const SizedBox(height: 110),
+        SizedBox(height: 110.h),
         _buildCategorySelector(),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         Expanded(child: _buildProductGrid(products)),
       ],
     );
@@ -186,12 +193,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       data: (categories) {
         final allCategories = ['All', ...categories];
         return SizedBox(
-          height: 50,
+          height: 50.h,
           child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
             scrollDirection: Axis.horizontal,
             itemCount: allCategories.length,
-            separatorBuilder: (_, _) => const SizedBox(width: 8),
+            separatorBuilder: (_, _) => SizedBox(width: 8.w),
             itemBuilder: (context, index) {
               final category = allCategories[index];
               final isSelected =
@@ -199,12 +206,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   (category == selectedCategory);
 
               return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
+                padding: EdgeInsets.symmetric(vertical: 4.h),
                 child: GlassContainer(
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(25.r),
                   color: isSelected ? Colors.deepPurple : Colors.white10,
                   opacity: isSelected ? 0.3 : 0.05,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Center(
                     child: InkWell(
                       onTap: () {
@@ -219,7 +226,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           fontWeight: isSelected
                               ? FontWeight.bold
                               : FontWeight.normal,
-                          fontSize: 13,
+                          fontSize: 13.sp,
                         ),
                       ),
                     ),
@@ -271,13 +278,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildProductGrid(List<Product> products) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    // Dynamically calculate crossAxisCount and childAspectRatio
+    int crossAxisCount = screenWidth > 600 ? 3 : 2;
+    // Base aspect ratio is adjusted to prevent stretching on wider screens
+    double childAspectRatio = screenWidth > 600 ? 0.75 : 0.62;
+
     return GridView.builder(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 100),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.65,
-        crossAxisSpacing: 14,
-        mainAxisSpacing: 14,
+      padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 100.h),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        childAspectRatio: childAspectRatio,
+        crossAxisSpacing: 14.w,
+        mainAxisSpacing: 14.h,
       ),
       itemCount: products.length,
       itemBuilder: (context, index) {
@@ -292,8 +305,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ),
           child: GlassContainer(
-            borderRadius: BorderRadius.circular(24),
-            padding: const EdgeInsets.all(8),
+            borderRadius: BorderRadius.circular(24.r),
+            padding: EdgeInsets.all(8.w),
             opacity: 0.08,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -305,28 +318,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       Container(
                         decoration: BoxDecoration(
                           color: isDark ? Colors.white.withOpacity(0.03) : Colors.black.withOpacity(0.02),
-                          borderRadius: BorderRadius.circular(18),
+                          borderRadius: BorderRadius.circular(18.r),
                         ),
                         child: Center(
                           child: Hero(
                             tag: 'product_${product.id}',
                             child: product.thumbnail.isNotEmpty
                                 ? Padding(
-                                    padding: const EdgeInsets.all(12),
-                                    child: Image.network(
-                                      product.thumbnail,
+                                    padding: EdgeInsets.all(12.w),
+                                    child: CachedNetworkImage(
+                                      imageUrl: product.thumbnail,
                                       fit: BoxFit.contain,
+                                      placeholder: (context, url) => Skeletonizer(
+                                        enabled: true,
+                                        child: Container(color: Colors.white10),
+                                      ),
                                     ),
                                   )
-                                : Icon(Iconsax.image,
-                                    size: 40, color: Colors.white24),
+                                : Icon(Iconsax.image, size: 40.sp, color: Colors.white24),
                           ),
                         ),
                       ),
                       // Edit/Delete small buttons
                       Positioned(
-                        top: 6,
-                        right: 6,
+                        top: 6.h,
+                        right: 6.w,
                         child: Row(
                           children: [
                             _buildActionIcon(
@@ -334,7 +350,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               Colors.blue.shade300,
                               () => _showAddEditDialog(product: product),
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4.w),
                             _buildActionIcon(
                               Iconsax.trash,
                               Colors.red.shade300,
@@ -345,20 +361,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       // Rating Badge
                       Positioned(
-                        bottom: 6,
-                        right: 6,
+                        bottom: 6.h,
+                        right: 6.w,
                         child: GlassContainer(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                          borderRadius: BorderRadius.circular(8),
+                          padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h),
+                          borderRadius: BorderRadius.circular(8.r),
                           opacity: 0.2,
                           child: Row(
                             children: [
-                              const Icon(Iconsax.star1, size: 10, color: Colors.amber),
-                              const SizedBox(width: 2),
+                              Icon(Iconsax.star1, size: 10.sp, color: Colors.amber),
+                              SizedBox(width: 2.w),
                               Text(
                                 '${product.rating}',
-                                style: const TextStyle(
-                                  fontSize: 10,
+                                style: TextStyle(
+                                  fontSize: 10.sp,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
@@ -369,19 +385,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                       if (product.discountPercentage > 0)
                         Positioned(
-                          top: 8,
-                          left: 8,
+                          top: 8.h,
+                          left: 8.w,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
                             decoration: BoxDecoration(
                               color: Colors.orangeAccent,
-                              borderRadius: BorderRadius.circular(6),
+                              borderRadius: BorderRadius.circular(6.r),
                             ),
                             child: Text(
                               '-${product.discountPercentage.round()}%',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 9,
+                                fontSize: 9.sp,
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
@@ -390,10 +406,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 // Info Section
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  padding: EdgeInsets.symmetric(horizontal: 6.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -401,59 +417,62 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         product.category.toUpperCase(),
                         style: TextStyle(
                           color: Colors.deepPurple.shade300,
-                          fontSize: 9,
+                          fontSize: 9.sp,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 1.1,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
                         product.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                          fontSize: 14.sp,
                           color: isDark ? Colors.white : Colors.black87,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            currencyFormat.format(product.price),
-                            style: TextStyle(
-                              color: isDark ? Colors.white : Colors.deepPurple.shade700,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 18,
+                          Flexible(
+                            child: Text(
+                              currencyFormat.format(product.price),
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: isDark ? Colors.white : Colors.deepPurple.shade700,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 18.sp,
+                              ),
                             ),
                           ),
                           // Quick Add
                           Container(
-                            height: 32,
-                            width: 32,
+                            height: 32.h,
+                            width: 32.w,
                             decoration: BoxDecoration(
                               color: Colors.deepPurple,
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10.r),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.deepPurple.withOpacity(0.3),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 4),
+                                  blurRadius: 8.r,
+                                  offset: Offset(0, 4.h),
                                 ),
                               ],
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Iconsax.arrow_right_3,
                               color: Colors.white,
-                              size: 18,
+                              size: 18.sp,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                     ],
                   ),
                 ),
@@ -469,10 +488,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return GlassContainer(
       opacity: 0.1,
       shape: BoxShape.circle,
-      padding: const EdgeInsets.all(6),
+      padding: EdgeInsets.all(6.w),
       child: InkWell(
         onTap: onTap,
-        child: Icon(icon, size: 14, color: color),
+        child: Icon(icon, size: 14.sp, color: color),
       ),
     );
   }
