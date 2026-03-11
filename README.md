@@ -1,4 +1,4 @@
-# Premium E-commerce App
+# E-commerce App
 
 A high-performance, responsive Flutter e-commerce application featuring a modern **Glassmorphism** UI, robust state management, and full CRUD capabilities.
 
